@@ -9,6 +9,7 @@
 			<script src="script/aframe-extras.js"></script>
 			<script src="script/aframe-mouse-cursor-component.min.js"></script>
 			<script src="script/aframe-physics-system.js"></script>
+			 <script src="https://rawgit.com/ngokevin/aframe-animation-component/master/dist/aframe-animation-component.min.js"></script>
 	<style>
 	@font-face {
     font-family: NordicNarrowRegular;
@@ -207,9 +208,10 @@ h1 {
         <ul>
 		
           <li><a href="#" onClick="$('#overlay').toggleClass('open'); $('.button_container').toggleClass('active');">Explore</a></li>
-          <li><a href="#" onClick="">About</a></li>
-          <li><a href="#">Work</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a onclick="onClick([0, 0, 0], 1000)">Home</a></li>
+          <li><a onclick="onClick([200, -20, 0], 750)">Donut 1</a></li>
+          <li><a onclick="onClick([-200, -20, 0], 500)">Donut 2</a></li>
+
         </ul>
       </nav>
 	  <div id=overlay-main>
@@ -288,7 +290,7 @@ h1 {
   
    
   
-  <a-entity camera 
+  <a-entity camera id="camera" animation="property: position; startEvents: animate"
    
   position="0 0 0"
   rotation="-20 90 0"
@@ -319,6 +321,18 @@ h1 {
   $('#overlay').toggleClass('open');
 });
 	</script>
+	
+	<script>
+    function onClick(toPos, timer) {
+      var cam = document.querySelector('#camera');
+      var fromPos = cam.getAttribute('position');
+      fromPos = [fromPos.x.toString(), fromPos.y.toString(), fromPos.z.toString()];
+      fromPos = fromPos.join(" ");
+      toPos = toPos.join(" ");
+      cam.setAttribute('animation', { from: fromPos, to: toPos, dur: timer } );
+      cam.emit('animate');
+    }
+  </script>
 
   <body>
 </html>
